@@ -7,17 +7,19 @@
  *
  * @author aaron
  */
+
+
 import java.util.Scanner;
 
 public class StudentGrading {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
         // Input number of students and subjects
         System.out.print("Enter the number of students: ");
-        int numberOfStudents = scanner.nextInt();
+        int numberOfStudents = sc.nextInt();
         System.out.print("Enter the number of subjects: ");
-        int numberOfSubjects = scanner.nextInt();
+        int numberOfSubjects = sc.nextInt();
 
         // Declare arrays
         String[] subjects = new String[numberOfSubjects];
@@ -28,7 +30,7 @@ public class StudentGrading {
         System.out.println("Enter the subject names:");
         for (int i = 0; i < numberOfSubjects; i++) {
             System.out.print("Subject " + (i + 1) + ": ");
-            subjects[i] = scanner.next();
+            subjects[i] = sc.next();
         }
 
         // Input grades
@@ -38,7 +40,7 @@ public class StudentGrading {
                 System.out.println("Subject: " + subjects[subject]);
                 for (int quarter = 0; quarter < 4; quarter++) {
                     System.out.print("Quarter " + (quarter + 1) + ": ");
-                    grades[student][subject][quarter] = scanner.nextDouble();
+                    grades[student][subject][quarter] = sc.nextDouble();
                 }
                 // Calculate final grade for the subject
                 double total = 0;
@@ -70,6 +72,6 @@ public class StudentGrading {
             System.out.printf("General Average: %.2f%n", generalAverage);
         }
 
-        scanner.close();
+        sc.close();
     }
 }
