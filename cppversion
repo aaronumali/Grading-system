@@ -1,0 +1,96 @@
+//C++ version 
+
+#include <iostream>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+int main() {
+    int numberOfStudents, numberOfSubjects;
+
+    // Input number of students and subjects
+    cout << "Enter the number of students: ";
+    cin >> numberOfStudents;
+    cout << "Enter the number of subjects: ";
+    cin >> numberOfSubjects;
+
+    // Declare arrays
+    string *subjects = new string[numberOfSubjects];
+    double ***grades = new double**[numberOfStudents];
+    double **finalGrades = new double*[numberOfStudents];
+
+    // Allocate memory for grades and finalGrades
+    for (int student = 0; student < numberOfStudents; student++) {
+        grades[student] = new double*[numberOfSubjects];
+        finalGrades[student] = new double[numberOfSubjects];
+        for (int subject = 0; subject < numberOfSubjects; subject++) {
+            grades[student][subject] = new double[4]; // 4 quarters
+        }
+    }
+
+    // Input subject names
+    cout << "Enter the subject names:\n";
+    for (int i = 0; i < numberOfSubjects; i++) {
+        cout << "Subject " << (i + 1) << ": ";
+        cin >> subjects[i];
+    }
+
+    // Input grades
+    for (int student = 0; student < numberOfStudents; student++) {
+        cout << "\nEntering grades for Student " << (student + 1) << ":\n";
+        for (int subject = 0; subject < numberOfSubjects; subject++) {
+            cout << "Subject: " << subjects[subject] << endl;
+            double total = 0;
+            for (int quarter = 0; quarter < 4; quarter++) {
+                cout << "Quarter " << (quarter + 1) << ": ";
+                cin >> grades[student][subject][quarter];
+                total += grades[student][subject][quarter];
+            }
+            finalGrades[student][subject] = total / 4.0;
+        }
+    }
+
+    // Display grades in a table format
+    for (int student = 0; student < numberOfStudents; student++) {
+        cout << "\nGrades for Student " << (student + 1) << ":\n";
+        cout << left << setw(12) << "Subject"
+             << setw(8) << "Q1"
+             << setw(8) << "Q2"
+             << setw(8) << "Q3"
+             << setw(8) << "Q4"
+             << setw(12) << "Final Grade" << endl;
+
+        for (int subject = 0; subject < numberOfSubjects; subject++) {
+            cout << left << setw(12) << subjects[subject];
+            for (int quarter = 0; quarter < 4; quarter++) {
+                cout << setw(8) << fixed << setprecision(2) 
+                     << grades[student][subject][quarter];
+            }
+            cout << setw(12) << fixed << setprecision(2) 
+                 << finalGrades[student][subject] << endl;
+        }
+
+        // Calculate and display general average
+        double generalAverage = 0;
+        for (int subject = 0; subject < numberOfSubjects; subject++) {
+            generalAverage += finalGrades[student][subject];
+        }
+        generalAverage /= numberOfSubjects;
+        cout << "General Average: " << fixed << setprecision(2) 
+             << generalAverage << "\n";
+    }
+
+    // Free allocated memory
+    for (int student = 0; student < numberOfStudents; student++) {
+        for (int subject = 0; subject < numberOfSubjects; subject++) {
+            delete[] grades[student][subject];
+        }
+        delete[] grades[student];
+        delete[] finalGrades[student];
+    }
+    delete[] grades;
+    delete[] finalGrades;
+    delete[] subjects;
+
+    return 0;
+}
